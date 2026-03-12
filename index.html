@@ -1,22 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Static Frontend + PHP Backend</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Engineering Tools Hub</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="protect.js"></script>
 </head>
 <body>
-<h1>My Project</h1>
-<p>Data from PHP backend:</p>
-<pre id="data"></pre>
+    <div class="particles" id="particles"></div>
+    <div class="user-bar">
+        <div class="user-pill"><i class="fas fa-user-circle"></i> <span id="ud">...</span></div>
+        <a href="http://hamedj.atwebpages.com/logout" class="logout-pill"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+    <div class="container">
+        <div class="header">
+            <div class="header-icon"><i class="fas fa-rocket"></i></div>
+            <div style="display:inline-flex;align-items:center;gap:14px;justify-content:center;margin-bottom:16px;">
+                <h1>Engineering <span>Tools Hub</span></h1>
+                <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:50px;background:linear-gradient(135deg,#ff0844,#ffb199);color:#fff;font-size:.8rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;box-shadow:0 4px 20px rgba(255,8,68,.5);animation:demoPulse 1.5s ease-in-out infinite;">
+                    <i class="fas fa-circle" style="font-size:.5rem;animation:blink .8s infinite"></i> DEMO VERSION
+                </div>
+            </div>
+            <p>Select an application to get started.</p>
+        </div>
 
-<script>
-fetch('http://hamedj.atwebpages.com/index.html')
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById('data').innerText = data;
-  })
-  .catch(err => console.error(err));
-</script>
+        <div class="grid">
+            <!-- Example card -->
+            <a href="http://hamedj.atwebpages.com/dashboard" class="card c1">
+                <span class="badge">Production</span>
+                <div class="icon"><i class="fas fa-boxes-stacked"></i></div>
+                <h3>Inventory System</h3>
+                <p>Track assets, manage check-in/out, view dashboards and analytics for all inventory items.</p>
+                <div class="arrow"><span>Open App</span> <i class="fas fa-arrow-right"></i></div>
+            </a>
+
+            <!-- Repeat for other cards, changing href to PHP backend URLs -->
+            <a href="http://hamedj.atwebpages.com/RT" class="card c2">
+                <span class="badge">Analysis</span>
+                <div class="icon"><i class="fas fa-wave-square"></i></div>
+                <h3>RT Algorithm &amp; Waveform</h3>
+                <p>Response time analysis, waveform visualization, heatmaps and database management.</p>
+                <div class="arrow"><span>Open App</span> <i class="fas fa-arrow-right"></i></div>
+            </a>
+            <a href="http://hamedj.atwebpages.com/flicker_app" class="card c3">
+                <span class="badge">Measurement</span>
+                <div class="icon"><i class="fas fa-bolt"></i></div>
+                <h3>Flicker Analysis</h3>
+                <p>Flicker measurement, dB calculations, duty cycle analysis and compliance reporting.</p>
+                <div class="arrow"><span>Open App</span> <i class="fas fa-arrow-right"></i></div>
+            </a>
+            <!-- Add all remaining cards similarly, updating href to your PHP backend -->
+        </div>
+
+        <div class="footer">
+            &copy; 2025-2026 All Rights Reserved. Proprietary &amp; Confidential.<br>
+            Unauthorized copying or distribution is strictly prohibited.
+            <div class="sig">Hamed J</div>
+        </div>
+    </div>
+
+    <script>
+    // Particles background
+    (function(){
+        var c=document.getElementById('particles');
+        var cols=['#667eea','#764ba2','#11998e','#f7971e','#eb3349','#4facfe'];
+        for(var i=0;i<30;i++){
+            var p=document.createElement('div');
+            p.className='particle';
+            var s=Math.random()*6+2;
+            p.style.width=s+'px';
+            p.style.height=s+'px';
+            p.style.left=Math.random()*100+'%';
+            p.style.background=cols[Math.floor(Math.random()*cols.length)];
+            p.style.animationDuration=(Math.random()*15+10)+'s';
+            p.style.animationDelay=(Math.random()*10)+'s';
+            c.appendChild(p);
+        }
+    })();
+
+    // Fetch current user from PHP backend
+    fetch('http://hamedj.atwebpages.com/api/me', {credentials:'include'})
+        .then(r => r.ok ? r.json() : {username:'Guest'})
+        .then(u => { document.getElementById('ud').textContent = u.username || 'Guest' })
+        .catch(() => { document.getElementById('ud').textContent = 'Guest' });
+    </script>
 </body>
 </html>
