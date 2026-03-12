@@ -1,91 +1,159 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Engineering Tools Hub</title>
-    <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script src="protect.js"></script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;min-height:100vh;background:linear-gradient(-45deg,#0f0c29,#302b63,#24243e,#1a1a2e);background-size:400% 400%;animation:grad 15s ease infinite;color:#fff;overflow-x:hidden}
+        @keyframes grad{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+        .particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+        .particle{position:absolute;border-radius:50%;opacity:.15;animation:floatUp linear infinite}
+        @keyframes floatUp{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.15}90%{opacity:.15}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+        .container{max-width:1200px;margin:0 auto;padding:40px 24px;position:relative;z-index:1}
+        .user-bar{position:fixed;top:0;right:0;left:0;display:flex;justify-content:flex-end;align-items:center;padding:16px 32px;z-index:100;gap:16px}
+        .user-pill{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);padding:8px 18px;border-radius:50px;font-size:.85rem;font-weight:600;border:1px solid rgba(255,255,255,.15)}
+        .user-pill i{color:#667eea}
+        .logout-pill{display:flex;align-items:center;gap:6px;background:rgba(235,51,73,.15);padding:8px 16px;border-radius:50px;font-size:.85rem;font-weight:600;color:#ff6b6b;text-decoration:none;border:1px solid rgba(235,51,73,.2);transition:all .3s}
+        .logout-pill:hover{background:#ff6b6b;color:#fff}
+        .header{text-align:center;margin:50px 0 50px;animation:fadeDown .8s ease}
+        @keyframes fadeDown{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:translateY(0)}}
+        .header-icon{width:90px;height:90px;border-radius:24px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:2.5rem;box-shadow:0 15px 40px rgba(102,126,234,.4)}
+        .header h1{font-size:2.8rem;font-weight:900;letter-spacing:-1px;margin-bottom:12px}
+        .header h1 span{background:linear-gradient(135deg,#667eea,#764ba2,#f093fb);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .header p{font-size:1.15rem;color:rgba(255,255,255,.6);max-width:600px;margin:0 auto}
+        .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-bottom:60px}
+        .card{background:rgba(255,255,255,.06);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:36px 28px;text-decoration:none;color:#fff;transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;cursor:pointer;animation:fadeUp .6s ease both}
+        .card:nth-child(1){animation-delay:.1s}.card:nth-child(2){animation-delay:.2s}.card:nth-child(3){animation-delay:.3s}
+        .card:nth-child(4){animation-delay:.4s}.card:nth-child(5){animation-delay:.5s}.card:nth-child(6){animation-delay:.6s}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes demoPulse{0%,100%{box-shadow:0 4px 20px rgba(255,8,68,.5);transform:scale(1)}50%{box-shadow:0 6px 30px rgba(255,8,68,.8);transform:scale(1.05)}}
+        @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+        .card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:4px 4px 0 0;opacity:0;transition:opacity .3s}
+        .card:hover::before{opacity:1}
+        .card:hover{transform:translateY(-10px) scale(1.02);border-color:rgba(255,255,255,.25);box-shadow:0 30px 60px rgba(0,0,0,.3)}
+        .card .icon{width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:1.8rem;box-shadow:0 8px 25px rgba(0,0,0,.2)}
+        .card h3{font-size:1.3rem;font-weight:700;margin-bottom:8px}
+        .card p{font-size:.9rem;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:16px}
+        .card .arrow{display:flex;align-items:center;gap:8px;font-size:.85rem;font-weight:600;color:rgba(255,255,255,.7);transition:all .3s}
+        .card:hover .arrow{color:#fff;gap:12px}
+        .card .badge{position:absolute;top:16px;right:16px;padding:4px 12px;border-radius:20px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+        .c1::before{background:linear-gradient(90deg,#667eea,#764ba2)}.c1 .icon{background:linear-gradient(135deg,#667eea,#764ba2)}.c1 .badge{background:rgba(102,126,234,.2);color:#a5b4fc}
+        .c2::before{background:linear-gradient(90deg,#11998e,#38ef7d)}.c2 .icon{background:linear-gradient(135deg,#11998e,#38ef7d)}.c2 .badge{background:rgba(17,153,142,.2);color:#6ee7b7}
+        .c3::before{background:linear-gradient(90deg,#f7971e,#ffd200)}.c3 .icon{background:linear-gradient(135deg,#f7971e,#ffd200);color:#333}.c3 .badge{background:rgba(247,151,30,.2);color:#fcd34d}
+        .c4::before{background:linear-gradient(90deg,#eb3349,#f45c43)}.c4 .icon{background:linear-gradient(135deg,#eb3349,#f45c43)}.c4 .badge{background:rgba(235,51,73,.2);color:#fca5a5}
+        .c6::before{background:linear-gradient(90deg,#a855f7,#ec4899)}.c6 .icon{background:linear-gradient(135deg,#a855f7,#ec4899)}.c6 .badge{background:rgba(168,85,247,.2);color:#d8b4fe}
+        .footer{text-align:center;padding:30px 0;border-top:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.35);font-size:.8rem;line-height:1.8}
+        .footer .sig{font-family:'Brush Script MT',cursive;font-size:1.8rem;background:linear-gradient(135deg,#f7971e,#ffd200);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:8px}
+    </style>
 </head>
+
 <body>
-    <div class="particles" id="particles"></div>
-    <div class="user-bar">
-        <div class="user-pill"><i class="fas fa-user-circle"></i> <span id="ud">...</span></div>
-        <a href="http://hamedj.atwebpages.com/logout" class="logout-pill"><i class="fas fa-sign-out-alt"></i> Logout</a>
-    </div>
-    <div class="container">
-        <div class="header">
-            <div class="header-icon"><i class="fas fa-rocket"></i></div>
-            <div style="display:inline-flex;align-items:center;gap:14px;justify-content:center;margin-bottom:16px;">
-                <h1>Engineering <span>Tools Hub</span></h1>
-                <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 20px;border-radius:50px;background:linear-gradient(135deg,#ff0844,#ffb199);color:#fff;font-size:.8rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;box-shadow:0 4px 20px rgba(255,8,68,.5);animation:demoPulse 1.5s ease-in-out infinite;">
-                    <i class="fas fa-circle" style="font-size:.5rem;animation:blink .8s infinite"></i> DEMO VERSION
-                </div>
-            </div>
-            <p>Select an application to get started.</p>
-        </div>
 
-        <div class="grid">
-            <!-- Example card -->
-            <a href="http://hamedj.atwebpages.com/dashboard" class="card c1">
-                <span class="badge">Production</span>
-                <div class="icon"><i class="fas fa-boxes-stacked"></i></div>
-                <h3>Inventory System</h3>
-                <p>Track assets, manage check-in/out, view dashboards and analytics for all inventory items.</p>
-                <div class="arrow"><span>Open App</span> <i class="fas fa-arrow-right"></i></div>
-            </a>
+<div class="particles" id="particles"></div>
 
-            <!-- Repeat for other cards, changing href to PHP backend URLs -->
-            <a href="http://hamedj.atwebpages.com/RT" class="card c2">
-                <span class="badge">Analysis</span>
-                <div class="icon"><i class="fas fa-wave-square"></i></div>
-                <h3>RT Algorithm &amp; Waveform</h3>
-                <p>Response time analysis, waveform visualization, heatmaps and database management.</p>
-                <div class="arrow"><span>Open App</span> <i class="fas fa-arrow-right"></i></div>
-            </a>
-            <a href="http://hamedj.atwebpages.com/flicker_app" class="card c3">
-                <span class="badge">Measurement</span>
-                <div class="icon"><i class="fas fa-bolt"></i></div>
-                <h3>Flicker Analysis</h3>
-                <p>Flicker measurement, dB calculations, duty cycle analysis and compliance reporting.</p>
-                <div class="arrow"><span>Open App</span> <i class="fas fa-arrow-right"></i></div>
-            </a>
-            <!-- Add all remaining cards similarly, updating href to your PHP backend -->
-        </div>
+<div class="user-bar">
+<div class="user-pill"><i class="fas fa-user-circle"></i> <span id="ud">...</span></div>
+<a href="/logout" class="logout-pill"><i class="fas fa-sign-out-alt"></i> Logout</a>
+</div>
 
-        <div class="footer">
-            &copy; 2025-2026 All Rights Reserved. Proprietary &amp; Confidential.<br>
-            Unauthorized copying or distribution is strictly prohibited.
-            <div class="sig">Hamed J</div>
-        </div>
-    </div>
+<div class="container">
 
-    <script>
-    // Particles background
-    (function(){
-        var c=document.getElementById('particles');
-        var cols=['#667eea','#764ba2','#11998e','#f7971e','#eb3349','#4facfe'];
-        for(var i=0;i<30;i++){
-            var p=document.createElement('div');
-            p.className='particle';
-            var s=Math.random()*6+2;
-            p.style.width=s+'px';
-            p.style.height=s+'px';
-            p.style.left=Math.random()*100+'%';
-            p.style.background=cols[Math.floor(Math.random()*cols.length)];
-            p.style.animationDuration=(Math.random()*15+10)+'s';
-            p.style.animationDelay=(Math.random()*10)+'s';
-            c.appendChild(p);
-        }
-    })();
+<div class="header">
+<div class="header-icon"><i class="fas fa-rocket"></i></div>
+<h1>Engineering <span>Tools Hub</span></h1>
+<p>Select an application to get started.</p>
+</div>
 
-    // Fetch current user from PHP backend
-    fetch('http://hamedj.atwebpages.com/api/me', {credentials:'include'})
-        .then(r => r.ok ? r.json() : {username:'Guest'})
-        .then(u => { document.getElementById('ud').textContent = u.username || 'Guest' })
-        .catch(() => { document.getElementById('ud').textContent = 'Guest' });
-    </script>
+<div class="grid">
+
+<a href="/dashboard" class="card c1">
+<span class="badge">Production</span>
+
+<div style="display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:50px;background:linear-gradient(135deg,#ff0844,#ffb199);color:#fff;font-size:.75rem;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;box-shadow:0 4px 20px rgba(255,8,68,.5);animation:demoPulse 1.5s ease-in-out infinite;margin-bottom:10px;">
+<i class="fas fa-lock"></i> DEMO – Username & Password Required
+</div>
+
+<div class="icon"><i class="fas fa-boxes-stacked"></i></div>
+<h3>Inventory System</h3>
+<p>Track assets, manage check-in/out, view dashboards and analytics for all inventory items.</p>
+<div class="arrow"><span>Open App</span> <i class="fas fa-arrow-right"></i></div>
+</a>
+
+<a href="/RT" class="card c2">
+<span class="badge">Analysis</span>
+<div class="icon"><i class="fas fa-wave-square"></i></div>
+<h3>RT Algorithm & Waveform</h3>
+<p>Response time analysis, waveform visualization, heatmaps and database management.</p>
+<div class="arrow"><span>Open App</span> <i class="fas fa-arrow-right"></i></div>
+</a>
+
+<a href="/flicker_app" class="card c3">
+<span class="badge">Measurement</span>
+<div class="icon"><i class="fas fa-bolt"></i></div>
+<h3>Flicker Analysis</h3>
+<p>Flicker measurement, dB calculations, duty cycle analysis and compliance reporting.</p>
+<div class="arrow"><span>Open App</span> <i class="fas fa-arrow-right"></i></div>
+</a>
+
+<a href="/post_processing" class="card c4">
+<span class="badge">Processing</span>
+<div class="icon"><i class="fas fa-microchip"></i></div>
+<h3>Post Processing</h3>
+<p>Batch data post-processing, CSV conversion, statistical analysis and report generation.</p>
+<div class="arrow"><span>Open App</span> <i class="fas fa-arrow-right"></i></div>
+</a>
+
+<a href="/upload_page" class="card c6">
+<span class="badge">Utility</span>
+<div class="icon"><i class="fas fa-cloud-arrow-up"></i></div>
+<h3>File Upload Center</h3>
+<p>Upload, manage and share files. Supports CSV, PDF, images, Excel and more.</p>
+<div class="arrow"><span>Open App</span> <i class="fas fa-arrow-right"></i></div>
+</a>
+
+<a href="/algorithms" class="card" style="animation-delay:.7s">
+<span class="badge" style="background:rgba(6,182,212,.2);color:#67e8f9">Tools</span>
+<div class="icon" style="background:linear-gradient(135deg,#06b6d4,#3b82f6)"><i class="fas fa-code-branch"></i></div>
+<h3>Algorithms Toolbox</h3>
+<p>Signal processing, optimization, and analysis algorithms for display measurements.</p>
+<div class="arrow"><span>Open App</span> <i class="fas fa-arrow-right"></i></div>
+</a>
+
+<a href="/ml_app" class="card" style="animation-delay:.8s">
+<span class="badge" style="background:rgba(139,92,246,.2);color:#c4b5fd">AI</span>
+<div class="icon" style="background:linear-gradient(135deg,#8b5cf6,#d946ef)"><i class="fas fa-brain"></i></div>
+<h3>Machine Learning</h3>
+<p>ML models for quality prediction, anomaly detection, and automated classification.</p>
+<div class="arrow"><span>Open App</span> <i class="fas fa-arrow-right"></i></div>
+</a>
+
+<a href="/data_cleaning" class="card" style="animation-delay:.9s">
+<span class="badge" style="background:rgba(16,185,129,.2);color:#6ee7b7">Pipeline</span>
+<div class="icon" style="background:linear-gradient(135deg,#10b981,#34d399)"><i class="fas fa-broom"></i></div>
+<h3>Data Cleaning</h3>
+<p>Automated data cleaning pipeline — detect errors, fix formatting, remove outliers.</p>
+<div class="arrow"><span>Open App</span> <i class="fas fa-arrow-right"></i></div>
+</a>
+
+</div>
+
+<div class="footer">
+&copy; 2025-2026 All Rights Reserved. Proprietary & Confidential.<br>
+Unauthorized copying or distribution is strictly prohibited.
+<div class="sig">Hamed J</div>
+</div>
+
+</div>
+
+<script>
+(function(){var c=document.getElementById('particles');var cols=['#667eea','#764ba2','#11998e','#f7971e','#eb3349','#4facfe'];for(var i=0;i<30;i++){var p=document.createElement('div');p.className='particle';var s=Math.random()*6+2;p.style.width=s+'px';p.style.height=s+'px';p.style.left=Math.random()*100+'%';p.style.background=cols[Math.floor(Math.random()*cols.length)];p.style.animationDuration=(Math.random()*15+10)+'s';p.style.animationDelay=(Math.random()*10)+'s';c.appendChild(p)}})();
+fetch('/api/me',{credentials:'same-origin'}).then(function(r){return r.ok?r.json():{username:'Guest'}}).then(function(u){document.getElementById('ud').textContent=u.username||'Guest'}).catch(function(){document.getElementById('ud').textContent='Guest'});
+</script>
+
 </body>
 </html>
